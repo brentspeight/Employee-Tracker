@@ -24,3 +24,4 @@ CREATE TABLE employee (
   manager_id INT null,
   PRIMARY KEY (id)
 );
+
