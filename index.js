@@ -137,31 +137,31 @@ function addEmployees() {
     //add employee
     inquirer
         .prompt([{
-            name: "firstName",
+            name: "first_name",
             type: "input",
             message: "Add first name?"
         },
         {
-            name: "lastName",
+            name: "last_name",
             type: "input",
             message: "Add last name?"
         },
         {
-            name: "roleId",
+            name: "role_id",
             type: "number",
             message: "Add role id?"
         },
         {
-            name: "managerId",
+            name: "manager_id",
             type: "number",
             message: "Add manager id?"
         }
         ])
         .then(function (answer) {    //create a query 
-            const { firstName, lastName, roleId, managerId } = answer
+            const { first_name, last_name, role_id, manager_id } = answer
             const query = "INSERT INTO employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ?";
-            
-            connection.query(query, [firstName, lastName, roleId, managerId], function (err, res) {
+
+            connection.query(query, [first_name, last_name, role_id, manager_id], function (err, res) {
                 console.log("----------------------------")
                 console.table(res)
                 runSearch();
@@ -300,6 +300,8 @@ function updateDepartments() {
                 var query = "UPDATE department SET name = ? WHERE id = ?"
                 //console.log(query)
                 connection.query(query, [department, id], function (err, res) {
+                    console.log("----------------------------")
+                    console.table(res)
                     //console.log(res,err)
                     runSearch();
                 });
@@ -315,22 +317,35 @@ function updateRoles() {
             message: "Which id?"
         },
         {
+            name: "title",
+            type: "input",
+            message: "new title"
+
+        },
+        {
             name: "salary",
             type: "number",
             message: "new salary"
 
+        },
+        {
+            name: "department_id",
+            type: "number",
+            message: "new department id "
+
         }]
         ).then(function (data) {   // data {id:,salary:}
             //create a query 
-            const { id, salary } = data
+            const { id, title, salary, department_id } = data
             //const query1= "Update role SET salary =" +  salary + " WHERE id =" + id;
             //console.log(query1)
             //const query = "Update role SET ?, ? WHERE ?";
             //connection.query(query, [{salary: salary},{name: newname},{id:id}], function (err, res) {
 
-            const query = "Update role SET salary = ? WHERE id =?";
-            connection.query(query, [salary, id], function (err, res) {
-
+            const query = "Update role SET title = ?, salary = ?, department_id =? WHERE id =?";
+            connection.query(query, [title, salary, department_id, id], function (err, res) {
+                console.log("----------------------------")
+                console.table(res)
                 runSearch();
             });
         })
@@ -339,15 +354,40 @@ function updateRoles() {
 function updateEmployees() {
     //update Employees
     inquirer
-        .prompt({
-            name: "employee",
+        .prompt([{
+            name: "id",
+            type: "number",
+            message: "Which id?"
+        },
+        {
+            name: "first_name",
             type: "input",
-            message: "Update Employee?"
+            message: "Add first name?"
+        },
+        {
+            name: "last_name",
+            type: "input",
+            message: "Add last name?"
+        },
+        {
+            name: "role_id",
+            type: "number",
+            message: "Add role id?"
+        },
+        {
+            name: "manager_id",
+            type: "number",
+            message: "Add manager id?"
+        }
+        ])
+        .then(function (data) {
+            //create a query 
+            const { first_name, last_name, role_id, manager_id, id } = data
+            const query = "UPDATE employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ? WHERE id =?";
+            connection.query(query, [first_name, last_name, role_id, manager_id, id], function (err, res) {
+                console.log("----------------------------")
+                console.table(res)
+                runSearch();
+            });
         })
-    //create a query 
-    const query = "UPDATE employee FROM companyDB WHERE ?";
-    connection.query(query, function (err, res) {
-
-        runSearch();
-    });
 }
