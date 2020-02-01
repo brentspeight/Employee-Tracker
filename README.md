@@ -10,3 +10,5 @@ View departments, roles, employees
 Update employee roles
 
 This is a solution for managing a company's employees using node, inquirer, and MySQL.
+
+https://brentspeight.github.io/Employee-Tracker/
